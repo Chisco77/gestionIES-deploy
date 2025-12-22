@@ -49,9 +49,9 @@ nano .env
 ```
 
 > **IMPORTANTE**: Debes editar obligatoriamente los siguientes campos:
-> * **DB_PASSWORD** → Contraseña para la base de datos PostgreSQL.
-> * **LDAP_URL** → Dirección IP o URL del servidor LDAP.
-> * **ALLOWED_ORIGINS** → URL pública del servidor.
+> * **DB_PASSWORD** → Contraseña para la base de datos PostgreSQL. Escoge la que quieras.
+> * **LDAP_URL** → Dirección IP o URL del servidor LDAP. Por ejemplo ldap://172.16.16.2:389
+> * **ALLOWED_ORIGINS** → URL pública del servidor. Por ejemplo, https://172.72.72.72 (respetar HTTPS)
 > * **VITE_*** → Datos específicos del centro.
 
 ### 3. Montar certificados SSL
