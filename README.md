@@ -22,8 +22,12 @@ Crear certificados autofirmados:
 
 ```
 mkdir -p /etc/nginx/ssl
+```
+```
 cd /etc/nginx/ssl
+```
 
+```
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/nginx/ssl/nginx.key \
   -out /etc/nginx/ssl/nginx.crt
@@ -33,7 +37,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 Clona el proyecto y accede al directorio de despliegue:
 
 ```
-git clone https://github.com/TU_USUARIO/gestionIES-deploy.git
+git clone https://github.com/Chisco77/gestionIES-deploy.git
 cd gestionIES-deploy
 ```
 
