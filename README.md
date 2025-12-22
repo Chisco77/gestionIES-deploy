@@ -15,17 +15,23 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ## ⚡ Pasos Rápidos
 
+### 0. Clonar el repositorio
+Instalar docker y portainer
+
 ### 1. Clonar el repositorio
 Clona el proyecto y accede al directorio de despliegue:
 
+```
 git clone https://github.com/TU_USUARIO/gestionIES-deploy.git
 cd gestionIES-deploy
+```
 
 ### 2. Configurar variables de entorno
 Crea el archivo de configuración a partir del ejemplo y edítalo:
-
+```
 cp .env.example .env
 nano .env
+```
 
 > **IMPORTANTE**: Debes editar obligatoriamente los siguientes campos:
 > * **DB_PASSWORD** → Contraseña para la base de datos PostgreSQL.
@@ -41,8 +47,10 @@ Asegúrate de colocar tus archivos de certificado y clave privada en las siguien
 ### 4. Desplegar la aplicación
 Asigna permisos de ejecución al script y lánzalo:
 
+```
 chmod +x deploy.sh
 ./deploy.sh
+```
 
 ---
 
@@ -61,7 +69,9 @@ Al ejecutar deploy.sh, el sistema realiza las siguientes acciones:
 ### Comprobar contenedores activos
 Verifica que los servicios estén corriendo correctamente:
 
+```
 docker ps
+```
 
 **Deberías ver los siguientes contenedores:**
 * postgres_gestionIES
@@ -75,8 +85,10 @@ docker ps
 ---
 
 ## 🔄 Actualizar aplicación
-Para actualizar el backend y el frontend a la última versión sin afectar a los datos de la base de datos, ejecuta:
+Para actualizar el backend y el frontend a la última versión sin afectar a los datos de la base de datos, ejecuta:ç
 
+```
 docker compose pull
 docker compose build
 docker compose up -d
+```
