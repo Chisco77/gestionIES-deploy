@@ -15,8 +15,19 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ## ⚡ Pasos Rápidos
 
-### 0. Clonar el repositorio
-Instalar docker y portainer
+### 0. Herramientas
+Instalar docker, portainer y git
+
+Crear certificados autofirmados:
+
+```
+mkdir -p /etc/nginx/ssl
+cd /etc/nginx/ssl
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/nginx/ssl/nginx.key \
+  -out /etc/nginx/ssl/nginx.crt
+```
 
 ### 1. Clonar el repositorio
 Clona el proyecto y accede al directorio de despliegue:
