@@ -2,60 +2,74 @@
 set -e
 
 echo "============================================="
-echo "   Instalación de Docker (si no está presente)"
+echo "🚀 Instalando Docker (si no está presente)..."
 echo "============================================="
 
-# ===========================
-# 1️⃣ Comprobar Docker
-# ===========================
+# ============================
+# 1️⃣ Comprobar si Docker ya está instalado
+# ============================
 if command -v docker &> /dev/null; then
-  echo "✅ Docker ya está instalado. No se hace nada."
-  exit 0
+    echo "✅ Docker ya está instalado. Saliendo..."
+    exit 0
 fi
 
-# ===========================
-# 2️⃣ Actualizar e instalar dependencias básicas
-# ===========================
-echo "🔄 Actualizando índices de paquetes..."
-sudo apt-get update -y
-sudo apt-get install -y apt-transport-https ca-certificates curl lsb-release gnupg
+# ============================
+# 2️⃣ Actualizar índices y dependencias
+# ============================
+echo "🔄 Actualizando paquetes base..."
+apt update -y
+apt install -y apt-transport-https ca-certificates curl lsb-release gnupg
 
-# ===========================
-# 3️⃣ Comprobar software-properties-common
-# ===========================
-echo "🔍 Verificando 'software-properties-common'..."
-if ! dpkg -s software-properties-common >/dev/null 2>&1; then
-  echo "📦 Instalando software-properties-common..."
-  sudo apt-get install -y software-properties-common || {
-    echo "⚠️ No se pudo instalar 'software-properties-common'."
-    exit 1
-  }
+# ============================
+# 3️⃣ Instalar software-properties-common (con fallback manual)
+# ============================
+echo "🔍 Comprobando software-properties-common..."
+if apt-cache show software-properties-common > /dev/null 2>&1; then
+    echo "✅ Disponible en repositorios. Instalando..."
+    apt install -y software-properties-common
 else
-  echo "✅ software-properties-common ya instalado."
+    echo "⚠️ No disponible en repositorios. Instalando manualmente..."
+    TMPDIR=$(mktemp -d)
+    cd "$TMPDIR"
+
+    SPC="software-properties-common_0.99.30-4.1~deb12u1_all.deb"
+    PSP="python3-software-properties_0.99.30-4.1~deb12u1_all.deb"
+
+    URL_SPC="https://ftp.debian.org/debian/pool/main/s/software-properties/${SPC}"
+    URL_PSP="https://ftp.debian.org/debian/pool/main/s/software-properties/${PSP}"
+
+    echo "⬇️ Descargando $PSP"
+    wget -q "$URL_PSP" -O "$PSP"
+
+    echo "⬇️ Descargando $SPC"
+    wget -q "$URL_SPC" -O "$SPC"
+
+    echo "📦 Instalando paquetes manualmente..."
+    apt install -y "./$PSP" "./$SPC"
+
+    cd -
+    rm -rf "$TMPDIR"
 fi
 
-# ===========================
+# ============================
 # 4️⃣ Añadir repositorio oficial de Docker
-# ===========================
-echo "🔑 Añadiendo clave GPG de Docker..."
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# ============================
+echo "📝 Añadiendo repositorio oficial de Docker..."
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
+  | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-echo "📄 Añadiendo repositorio de Docker a APT..."
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
-  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# ============================
+# 5️⃣ Instalar Docker y componentes
+# ============================
+echo "🔄 Actualizando índices y instalando Docker..."
+apt update -y
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# ===========================
-# 5️⃣ Instalar Docker
-# ===========================
-echo "🔄 Actualizando índice de paquetes con el repositorio de Docker..."
-sudo apt-get update -y
-
-echo "📦 Instalando Docker y componentes..."
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# ===========================
-# 6️⃣ Comprobar instalación
-# ===========================
-echo "✅ Docker instalado correctamente."
+# ============================
+# 6️⃣ Comprobación final
+# ============================
+echo "✅ Docker instalado correctamente:"
 docker --version
 docker compose version
