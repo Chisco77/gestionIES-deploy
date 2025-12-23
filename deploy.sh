@@ -36,7 +36,8 @@ DB_NAME=$(grep DB_NAME .env | cut -d '=' -f2)
 echo "⏳ Esperando a que PostgreSQL acepte conexiones..."
 MAX_RETRIES=30
 TRIES=0
-until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1; do
+
+until docker exec -i "$DB_CONTAINER" pg_isready -U "$DB_USER" > /dev/null 2>&1; do
   ((TRIES++))
   if [ $TRIES -ge $MAX_RETRIES ]; then
     echo "❌ Error: No se pudo conectar a PostgreSQL después de $MAX_RETRIES intentos."
@@ -45,7 +46,9 @@ until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1
   echo "⏳ Intentando conectar a PostgreSQL... Intento $TRIES/$MAX_RETRIES"
   sleep 2
 done
+
 echo "✅ PostgreSQL completamente operativo."
+
 
 # ===========================
 # 5️⃣ Crear base de datos si no existe
