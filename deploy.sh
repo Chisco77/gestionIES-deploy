@@ -33,11 +33,14 @@ DB_CONTAINER="postgres_gestionIES"
 DB_USER=$(grep DB_USER .env | cut -d '=' -f2)
 DB_NAME=$(grep DB_NAME .env | cut -d '=' -f2)
 
-echo "⏳ Esperando a que PostgreSQL esté listo..."
-until docker exec -i "$DB_CONTAINER" pg_isready -U "$DB_USER" > /dev/null 2>&1; do
+echo "⏳ Esperando a que PostgreSQL acepte conexiones reales..."
+
+until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1; do
   sleep 2
 done
-echo "✅ PostgreSQL listo."
+
+echo "✅ PostgreSQL completamente operativo."
+
 
 # ===========================
 # 5️⃣ Crear base de datos si no existe
