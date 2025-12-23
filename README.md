@@ -111,7 +111,5 @@ docker ps
 Para actualizar el backend y el frontend a la última versión sin afectar a los datos de la base de datos, ejecuta:
 
 ```
-docker compose pull
-docker compose build
-docker compose up -d
+docker compose up -d --build
 ```
