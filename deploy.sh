@@ -27,7 +27,7 @@ docker compose build
 docker compose up -d
 
 # ===========================
-# 4️⃣ Esperar a que la base de datos esté lista
+# 4️⃣ Esperar a que PostgreSQL acepte conexiones
 # ===========================
 DB_CONTAINER="postgres_gestionIES"
 DB_USER=$(grep DB_USER .env | cut -d '=' -f2)
@@ -36,18 +36,15 @@ DB_NAME=$(grep DB_NAME .env | cut -d '=' -f2)
 echo "⏳ Esperando a que PostgreSQL acepte conexiones..."
 MAX_RETRIES=30
 TRIES=0
-until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1 || [ $TRIES -ge $MAX_RETRIES ]; do
+until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1; do
+  ((TRIES++))
+  if [ $TRIES -ge $MAX_RETRIES ]; then
+    echo "❌ Error: No se pudo conectar a PostgreSQL después de $MAX_RETRIES intentos."
+    exit 1
+  fi
   echo "⏳ Intentando conectar a PostgreSQL... Intento $TRIES/$MAX_RETRIES"
   sleep 2
-  ((TRIES++))
 done
-
-if [ $TRIES -ge $MAX_RETRIES ]; then
-  echo "❌ Error: No se pudo conectar a PostgreSQL después de $MAX_RETRIES intentos."
-  exit 1
-else
-  echo "✅ PostgreSQL completamente operativo."
-fi
 echo "✅ PostgreSQL completamente operativo."
 
 # ===========================
@@ -79,4 +76,7 @@ else
   echo "⚠️ Se omite la importación del dump porque la base de datos ya existía."
 fi
 
+# ===========================
+# 7️⃣ Mensaje final
+# ===========================
 echo "🎉 gestionIES desplegado con éxito."
