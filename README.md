@@ -20,6 +20,8 @@ Instalar docker, portainer y git
 
 Para instalar portainer, ejecutar script ./portainer.sh. Una vez instalado, acceder con https://ip_equipo:9443/
 
+Para instalar docker, ejecutar script ./docker.sh
+
 
 Crear certificados autofirmados:
 

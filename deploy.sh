@@ -34,9 +34,20 @@ DB_USER=$(grep DB_USER .env | cut -d '=' -f2)
 DB_NAME=$(grep DB_NAME .env | cut -d '=' -f2)
 
 echo "⏳ Esperando a que PostgreSQL acepte conexiones..."
-until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1; do
+MAX_RETRIES=30
+TRIES=0
+until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1 || [ $TRIES -ge $MAX_RETRIES ]; do
+  echo "⏳ Intentando conectar a PostgreSQL... Intento $TRIES/$MAX_RETRIES"
   sleep 2
+  ((TRIES++))
 done
+
+if [ $TRIES -ge $MAX_RETRIES ]; then
+  echo "❌ Error: No se pudo conectar a PostgreSQL después de $MAX_RETRIES intentos."
+  exit 1
+else
+  echo "✅ PostgreSQL completamente operativo."
+fi
 echo "✅ PostgreSQL completamente operativo."
 
 # ===========================
