@@ -9,7 +9,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 * **Permisos:** Acceso de superusuario (sudo).
 * **Red:** Acceso a la red LDAP del centro.
 * **Seguridad:** Certificados SSL (propios o autofirmados).
-* **Herramientas:** Docker y Git instalados.
+* **Herramientas:** Docker y Git instalados. Muy recomendable instalar portainer para gestionar contenedores y pgadmin para la BD.
 
 ---
 
@@ -54,12 +54,16 @@ nano .env
 > * **ALLOWED_ORIGINS** → URL pública del servidor. Por ejemplo, https://172.72.72.72 (respetar HTTPS)
 > * **VITE_*** → Datos específicos del centro.
 
-### 3. Montar certificados SSL
+### 3. Poner logos y planos de tu IES en /public
+Lleva el logo de tu centro a logo.png y favicon.ico. Los planos, a PLANTA_BAJA.svg, PLANTA_PRIMERA.svg, PLANTA_SEGUNDA.svg.
+IMPORTANTE: Respeta los nombres de los archivos.
+
+### 4. Montar certificados SSL
 Asegúrate de colocar tus archivos de certificado y clave privada en las siguientes rutas:
 * /etc/nginx/ssl/nginx.crt
 * /etc/nginx/ssl/nginx.key
 
-### 4. Desplegar la aplicación
+### 5. Desplegar la aplicación
 Asigna permisos de ejecución al script y lánzalo:
 
 ```
@@ -95,12 +99,11 @@ docker ps
 
 ### URLs de acceso
 * **Frontend:** https://TU_SERVIDOR/gestionIES/
-* **Backend API:** https://TU_SERVIDOR/api/
 
 ---
 
 ## 🔄 Actualizar aplicación
-Para actualizar el backend y el frontend a la última versión sin afectar a los datos de la base de datos, ejecuta:ç
+Para actualizar el backend y el frontend a la última versión sin afectar a los datos de la base de datos, ejecuta:
 
 ```
 docker compose pull

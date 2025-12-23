@@ -28,7 +28,7 @@ services:
   # =========================
   backend_app:
     build:
-      context: https://github.com/Chisco77/gestionIES-app.git#main
+      context: https://github.com/Chisco77/gestionIES.git#main
       dockerfile: backend/Dockerfile
     image: gestionies_backend_app:latest
     container_name: node_gestionIES
@@ -48,7 +48,7 @@ services:
   # =========================
   frontend_nginx:
     build:
-      context: https://github.com/Chisco77/gestionIES-app.git#main
+      context: https://github.com/Chisco77/gestionIES.git#main
       dockerfile: Dockerfile.frontend
       args:
         VITE_API_URL: ${VITE_API_URL}
@@ -73,6 +73,8 @@ services:
       - /etc/nginx/ssl/nginx.key:/etc/nginx/ssl/nginx.key:ro
       # Configuración Nginx legacy
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      # PUBLIC PERSONALIZADO POR CENTRO - logos y planos
+      - ./public:/usr/share/nginx/html/gestionIES/public:ro      
 
 volumes:
   postgres_data:
