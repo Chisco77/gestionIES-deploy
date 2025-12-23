@@ -16,26 +16,29 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 ## ⚡ Pasos Rápidos
 
 ### 0. Herramientas
-Instalar docker, portainer y git
+Instalar git, docker, portainer y certificados autofirmados.
 
-Para instalar portainer, ejecutar script ./portainer.sh. Una vez instalado, acceder con https://ip_equipo:9443/
+Ejecutar permisos de ejecución a los scripts.
 
-Para instalar docker, ejecutar script ./docker.sh
-
-
-Crear certificados autofirmados:
-
+Para instalar git, ejecutar 
 ```
-mkdir -p /etc/nginx/ssl
-```
-```
-cd /etc/nginx/ssl
+apt-get install -y git
 ```
 
+Para instalar docker, ejecutar script 
 ```
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/nginx/ssl/nginx.key \
-  -out /etc/nginx/ssl/nginx.crt
+./1-docker.sh
+```
+Para instalar portainer, ejecutar script 
+```
+./2-portainer.sh
+```
+Una vez instalado, acceder con https://ip_equipo:9443/
+
+
+Para instalar certificados autofirmados, ejecutar 
+```
+./3-certificados.sh
 ```
 
 ### 1. Clonar el repositorio
@@ -63,12 +66,7 @@ nano .env
 Lleva el logo de tu centro a logo.png y favicon.ico. Los planos, a PLANTA_BAJA.svg, PLANTA_PRIMERA.svg, PLANTA_SEGUNDA.svg.
 IMPORTANTE: Respeta los nombres de los archivos.
 
-### 4. Montar certificados SSL
-Asegúrate de colocar tus archivos de certificado y clave privada en las siguientes rutas:
-* /etc/nginx/ssl/nginx.crt
-* /etc/nginx/ssl/nginx.key
-
-### 5. Desplegar la aplicación
+### 4. Desplegar la aplicación
 Asigna permisos de ejecución al script y lánzalo:
 
 ```
