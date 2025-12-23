@@ -33,39 +33,39 @@ DB_CONTAINER="postgres_gestionIES"
 DB_USER=$(grep DB_USER .env | cut -d '=' -f2)
 DB_NAME=$(grep DB_NAME .env | cut -d '=' -f2)
 
-echo "⏳ Esperando a que PostgreSQL acepte conexiones reales..."
-
+echo "⏳ Esperando a que PostgreSQL acepte conexiones..."
 until docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d postgres -c "SELECT 1" > /dev/null 2>&1; do
   sleep 2
 done
-
 echo "✅ PostgreSQL completamente operativo."
-
 
 # ===========================
 # 5️⃣ Crear base de datos si no existe
 # ===========================
-echo "📦 Creando base de datos $DB_NAME si no existe..."
-docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -tc "SELECT 1 FROM pg_database WHERE datname = '$DB_NAME';" | grep -q 1 \
-  || docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -c "CREATE DATABASE \"$DB_NAME\";"
-echo "✅ Base de datos lista."
+EXISTS=$(docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'")
+if [ "$EXISTS" != "1" ]; then
+  echo "📦 Creando base de datos $DB_NAME..."
+  docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -c "CREATE DATABASE \"$DB_NAME\";"
+  CREATED_DB=true
+else
+  echo "ℹ️ La base de datos $DB_NAME ya existe."
+  CREATED_DB=false
+fi
 
 # ===========================
 # 6️⃣ Importar dump inicial si DB recién creada
 # ===========================
 DUMP_FILE="./db-init/gestionIES.sql"
-if [ -f "$DUMP_FILE" ]; then
-  # Solo importa si la DB está vacía
-  COUNT=$(docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT count(*) FROM information_schema.tables;" | tr -d '[:space:]')
-  if [ "$COUNT" = "0" ]; then
+if [ "$CREATED_DB" = true ]; then
+  if [ -f "$DUMP_FILE" ]; then
     echo "📥 Importando dump inicial a $DB_NAME..."
     docker exec -i "$DB_CONTAINER" psql -U "$DB_USER" -d "$DB_NAME" < "$DUMP_FILE"
     echo "✅ Dump importado correctamente."
   else
-    echo "⚠️ La base de datos ya contiene tablas, se omite la importación del dump."
+    echo "⚠️ No se encontró el dump $DUMP_FILE, se omite la importación."
   fi
 else
-  echo "⚠️ No se encontró el dump $DUMP_FILE, se omite la importación."
+  echo "⚠️ Se omite la importación del dump porque la base de datos ya existía."
 fi
 
 echo "🎉 gestionIES desplegado con éxito."

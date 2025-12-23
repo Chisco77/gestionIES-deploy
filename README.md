@@ -18,6 +18,9 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 ### 0. Herramientas
 Instalar docker, portainer y git
 
+Para instalar portainer, ejecutar script ./portainer.sh. Una vez instalado, acceder con https://ip_equipo:9443/
+
+
 Crear certificados autofirmados:
 
 ```
