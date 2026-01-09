@@ -15,7 +15,16 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ## ⚡ Pasos Rápidos
 
-### 0. Herramientas
+
+### 0. Clonar el repositorio
+Clona el proyecto y accede al directorio de despliegue:
+
+```
+git clone https://github.com/Chisco77/gestionIES-deploy.git
+cd gestionIES-deploy
+```
+
+### 1. Herramientas
 Instalar git, docker, portainer y certificados autofirmados.
 
 Ejecutar permisos de ejecución a los scripts.
@@ -39,14 +48,6 @@ Una vez instalado, acceder con https://ip_equipo:9443/
 Para instalar certificados autofirmados, ejecutar 
 ```
 ./3-certificados.sh
-```
-
-### 1. Clonar el repositorio
-Clona el proyecto y accede al directorio de despliegue:
-
-```
-git clone https://github.com/Chisco77/gestionIES-deploy.git
-cd gestionIES-deploy
 ```
 
 ### 2. Configurar variables de entorno
