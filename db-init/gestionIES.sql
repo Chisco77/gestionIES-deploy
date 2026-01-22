@@ -111,7 +111,11 @@ CREATE TABLE public.empleados (
     dni character varying NOT NULL,
     asuntos_propios integer NOT NULL,
     tipo_empleado character varying NOT NULL,
-    jornada integer DEFAULT 0 NOT NULL
+    jornada integer DEFAULT 0 NOT NULL,
+    email character varying NOT NULL,
+    telefono character varying NOT NULL
+
+
 );
 
 
@@ -187,7 +191,8 @@ CREATE TABLE public.extraescolares (
     updated_at timestamp without time zone DEFAULT now(),
     responsables_uids character varying[] NOT NULL,
     ubicacion text NOT NULL,
-    coords jsonb NOT NULL
+    coords jsonb NOT NULL,
+    erasmus boolean DEFAULT false NOT NULL
 );
 
 
