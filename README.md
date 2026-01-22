@@ -61,6 +61,7 @@ nano .env
 > * **DB_PASSWORD** → Contraseña para la base de datos PostgreSQL. Escoge la que quieras.
 > * **LDAP_URL** → Dirección IP o URL del servidor LDAP. Por ejemplo ldap://172.16.16.2:389
 > * **ALLOWED_ORIGINS** → URL pública del servidor. Por ejemplo, https://172.72.72.72 (respetar HTTPS)
+> * **VITE_SERVER_URL** → URL del servidor. Por ejemplo, https://172.72.72.72:5000 (respetar HTTPS)
 > * **VITE_*** → Datos específicos del centro.
 
 ### 3. Poner logos y planos de tu IES en /public
