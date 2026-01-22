@@ -598,6 +598,42 @@ ALTER TABLE ONLY public.prestamos_llaves
 
 
 -- ------------------------------------------------------------
+-- Name: asuntos_permitidos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- ------------------------------------------------------------
+
+CREATE SEQUENCE public.asuntos_permitidos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+-- ------------------------------------------------------------
+-- Name: asuntos_permitidos; Type: TABLE; Schema: public; Owner: -
+-- ------------------------------------------------------------
+
+CREATE TABLE public.asuntos_permitidos (
+    id integer DEFAULT nextval('public.asuntos_permitidos_id_seq'::regclass) NOT NULL,
+    uid character varying NOT NULL,
+    fecha date NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+-- ------------------------------------------------------------
+-- Name: asuntos_permitidos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- ------------------------------------------------------------
+
+ALTER SEQUENCE public.asuntos_permitidos_id_seq OWNED BY public.asuntos_permitidos.id;
+
+-- ------------------------------------------------------------
+-- Name: asuntos_permitidos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- ------------------------------------------------------------
+
+ALTER TABLE ONLY public.asuntos_permitidos
+    ADD CONSTRAINT asuntos_permitidos_pkey PRIMARY KEY (id);
+
+
+-- ------------------------------------------------------------
 -- Registro inicial: perfil administrador
 -- ------------------------------------------------------------
 
