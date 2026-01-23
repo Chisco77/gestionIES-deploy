@@ -68,7 +68,16 @@ nano .env
 Lleva el logo de tu centro a logo.png y favicon.ico. Los planos, a PLANTA_BAJA.svg, PLANTA_PRIMERA.svg, PLANTA_SEGUNDA.svg.
 IMPORTANTE: Respeta los nombres de los archivos.
 
-### 4. Desplegar la aplicación
+### 4 . Fotos de perfil de alumnos (opcional)
+Para que al editar un alumno, aparezca su foto de Rayuela:
+
+    Descargad xml de alumnos y ponedlo en /backend, con nombre Alumnos.xml
+    Los archivos de las fotos, llevadlos a /backend/uploads/alumnos
+    Ejecutad node renameFotos.js (está en /backend). El resultado es que habrá renombrado las fotos de nie.extension a usuario.extension.
+
+
+
+### 5. Desplegar la aplicación
 Asigna permisos de ejecución al script y lánzalo:
 
 ```
@@ -104,6 +113,7 @@ docker ps
 
 ### URLs de acceso
 * **Frontend:** https://TU_SERVIDOR/gestionIES/
+* **La primera vez inicia con las credenciales del admin de LDAP**
 
 ---
 
