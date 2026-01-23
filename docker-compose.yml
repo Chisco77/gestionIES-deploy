@@ -78,6 +78,10 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       # PUBLIC PERSONALIZADO POR CENTRO - logos y planos
       - ./public:/usr/share/nginx/html/gestionIES/public:ro      
+      # Carpeta de imágenes de alumnos
+      - ./backend/uploads/alumnos:/app/backend/uploads/alumnos:ro
+      # Dietas xls
+      - ./backend/DIETAS.xlsx:/app/backend
 
 volumes:
   postgres_data:
