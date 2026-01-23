@@ -71,9 +71,9 @@ IMPORTANTE: Respeta los nombres de los archivos.
 ### 4 . Fotos de perfil de alumnos (opcional)
 Para que al editar un alumno, aparezca su foto de Rayuela:
 
-    Descargad xml de alumnos y ponedlo en /backend, con nombre Alumnos.xml
-    Los archivos de las fotos, llevadlos a /backend/uploads/alumnos
-    Ejecutad node renameFotos.js (está en /backend). El resultado es que habrá renombrado las fotos de nie.extension a usuario.extension.
+> Descargad xml de alumnos y ponedlo en /backend, con nombre Alumnos.xml
+> Los archivos de las fotos, llevadlos a /backend/uploads/alumnos
+> Ejecutad node renameFotos.js (está en /backend). El resultado es que habrá renombrado las fotos de nie.extension a usuario.extension.
 
 
 
