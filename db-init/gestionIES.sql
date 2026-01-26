@@ -286,7 +286,8 @@ CREATE TABLE public.permisos (
     fecha date NOT NULL,
     descripcion text NOT NULL,
     estado integer DEFAULT 0 NOT NULL,
-    tipo integer
+    tipo integer,
+    created_at timestamp with time zone DEFAULT now()
 );
 
 
