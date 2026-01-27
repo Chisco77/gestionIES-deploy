@@ -79,7 +79,8 @@ services:
       # PUBLIC PERSONALIZADO POR CENTRO - logos y planos
       - ./public:/usr/share/nginx/html/gestionIES/public:ro      
       # Carpeta de imágenes de alumnos
-      - ./backend/uploads/alumnos:/app/backend/uploads/alumnos:ro
+      #- ./backend/uploads/alumnos:/app/backend/uploads/alumnos:ro
+      - ./backend/uploads/alumnos:/usr/share/nginx/html/gestionIES/uploads/alumnos:ro
       # Dietas xls
       - ./backend/DIETAS.xlsx:/app/backend
 
