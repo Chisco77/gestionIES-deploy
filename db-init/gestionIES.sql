@@ -114,8 +114,6 @@ CREATE TABLE public.empleados (
     jornada integer DEFAULT 0 NOT NULL,
     email character varying NOT NULL,
     telefono character varying NOT NULL
-
-
 );
 
 
