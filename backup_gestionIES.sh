@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -t postgres_gestionIES pg_dump -U postgres gestionIES > gestionIES_dump.sql
+docker exec -i postgres_gestionIES pg_dump -U postgres -d gestionIES -F p > gestionIES_full.sql
