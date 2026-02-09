@@ -2,6 +2,7 @@
 
 Guía de despliegue rápido para el sistema de gestión de centros educativos **gestionIES**.
 
+
 ## 📋 Requisitos Previos
 
 Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
@@ -123,3 +124,10 @@ Para actualizar el backend y el frontend a la última versión sin afectar a los
 ```
 docker compose up -d --build
 ```
+
+## 🚀 Documentación de despliegue
+
+En esta carpeta encontrarás las guías de instalación y despliegue:
+
+- [Guía de despliegue con Docker](doc/Instalacion.pdf)
+- [Manual de usuario](doc/Usuario.pdf)
