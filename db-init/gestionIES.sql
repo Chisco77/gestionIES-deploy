@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict fsBQ1eDEmFXANSiTGXokQBRhD6D7cAZgNgQbsbdUi4m9xRL0ybJAghhVajlcWVC
+\restrict 0IctCjfntqihbroGh5h32fKbXpqZyAw3360J8n8M1eKh818MHs2hpMLbrkZcyOn
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -19,16 +19,28 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
 -- *not* creating schema, since initdb creates it
 
 
-ALTER SCHEMA public OWNER TO postgres;
+--
+-- Name: actualizar_updated_at(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.actualizar_updated_at() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+   NEW.updated_at := now();
+   RETURN NEW;
+END;
+$$;
+
 
 --
--- Name: api_cursos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: api_cursos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.api_cursos_id_seq
@@ -39,14 +51,12 @@ CREATE SEQUENCE public.api_cursos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.api_cursos_id_seq OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: asuntos_permitidos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.asuntos_permitidos (
@@ -57,10 +67,8 @@ CREATE TABLE public.asuntos_permitidos (
 );
 
 
-ALTER TABLE public.asuntos_permitidos OWNER TO postgres;
-
 --
--- Name: asuntos_permitidos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.asuntos_permitidos_id_seq
@@ -71,17 +79,15 @@ CREATE SEQUENCE public.asuntos_permitidos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.asuntos_permitidos_id_seq OWNER TO postgres;
-
 --
--- Name: asuntos_permitidos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.asuntos_permitidos_id_seq OWNED BY public.asuntos_permitidos.id;
 
 
 --
--- Name: asuntos_propios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: asuntos_propios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.asuntos_propios_id_seq
@@ -92,10 +98,8 @@ CREATE SEQUENCE public.asuntos_propios_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.asuntos_propios_id_seq OWNER TO postgres;
-
 --
--- Name: avisos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: avisos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.avisos_id_seq
@@ -106,10 +110,8 @@ CREATE SEQUENCE public.avisos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.avisos_id_seq OWNER TO postgres;
-
 --
--- Name: avisos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: avisos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.avisos (
@@ -120,10 +122,8 @@ CREATE TABLE public.avisos (
 );
 
 
-ALTER TABLE public.avisos OWNER TO postgres;
-
 --
--- Name: cursos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cursos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cursos (
@@ -132,10 +132,8 @@ CREATE TABLE public.cursos (
 );
 
 
-ALTER TABLE public.cursos OWNER TO postgres;
-
 --
--- Name: cursos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: cursos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.cursos ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
@@ -149,7 +147,7 @@ ALTER TABLE public.cursos ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- Name: empleados; Type: TABLE; Schema: public; Owner: postgres
+-- Name: empleados; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.empleados (
@@ -160,14 +158,14 @@ CREATE TABLE public.empleados (
     tipo_empleado character varying NOT NULL,
     jornada integer DEFAULT 0 NOT NULL,
     email character varying NOT NULL,
-    telefono character varying NOT NULL
+    telefono character varying NOT NULL,
+    cuerpo character varying,
+    grupo character varying
 );
 
 
-ALTER TABLE public.empleados OWNER TO postgres;
-
 --
--- Name: estancias; Type: TABLE; Schema: public; Owner: postgres
+-- Name: estancias; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.estancias (
@@ -185,10 +183,8 @@ CREATE TABLE public.estancias (
 );
 
 
-ALTER TABLE public.estancias OWNER TO postgres;
-
 --
--- Name: estancias_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: estancias_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.estancias_id_seq
@@ -200,17 +196,15 @@ CREATE SEQUENCE public.estancias_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.estancias_id_seq OWNER TO postgres;
-
 --
--- Name: estancias_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: estancias_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.estancias_id_seq OWNED BY public.estancias.id;
 
 
 --
--- Name: extraescolares_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: extraescolares_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.extraescolares_id_seq
@@ -221,10 +215,8 @@ CREATE SEQUENCE public.extraescolares_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.extraescolares_id_seq OWNER TO postgres;
-
 --
--- Name: extraescolares; Type: TABLE; Schema: public; Owner: postgres
+-- Name: extraescolares; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.extraescolares (
@@ -245,14 +237,13 @@ CREATE TABLE public.extraescolares (
     responsables_uids character varying[] NOT NULL,
     ubicacion text NOT NULL,
     coords jsonb NOT NULL,
-    erasmus boolean DEFAULT false NOT NULL
+    erasmus boolean DEFAULT false NOT NULL,
+    updated_by character varying
 );
 
 
-ALTER TABLE public.extraescolares OWNER TO postgres;
-
 --
--- Name: libros; Type: TABLE; Schema: public; Owner: postgres
+-- Name: libros; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.libros (
@@ -262,10 +253,8 @@ CREATE TABLE public.libros (
 );
 
 
-ALTER TABLE public.libros OWNER TO postgres;
-
 --
--- Name: libros_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: libros_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.libros ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
@@ -279,7 +268,7 @@ ALTER TABLE public.libros ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- Name: perfiles_usuario; Type: TABLE; Schema: public; Owner: postgres
+-- Name: perfiles_usuario; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.perfiles_usuario (
@@ -289,10 +278,8 @@ CREATE TABLE public.perfiles_usuario (
 );
 
 
-ALTER TABLE public.perfiles_usuario OWNER TO postgres;
-
 --
--- Name: perfiles_usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: perfiles_usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.perfiles_usuario_id_seq
@@ -304,17 +291,15 @@ CREATE SEQUENCE public.perfiles_usuario_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.perfiles_usuario_id_seq OWNER TO postgres;
-
 --
--- Name: perfiles_usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: perfiles_usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.perfiles_usuario_id_seq OWNED BY public.perfiles_usuario.id;
 
 
 --
--- Name: periodos_horarios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: periodos_horarios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.periodos_horarios_id_seq
@@ -325,10 +310,8 @@ CREATE SEQUENCE public.periodos_horarios_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.periodos_horarios_id_seq OWNER TO postgres;
-
 --
--- Name: periodos_horarios; Type: TABLE; Schema: public; Owner: postgres
+-- Name: periodos_horarios; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.periodos_horarios (
@@ -339,10 +322,8 @@ CREATE TABLE public.periodos_horarios (
 );
 
 
-ALTER TABLE public.periodos_horarios OWNER TO postgres;
-
 --
--- Name: permisos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: permisos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.permisos (
@@ -356,10 +337,8 @@ CREATE TABLE public.permisos (
 );
 
 
-ALTER TABLE public.permisos OWNER TO postgres;
-
 --
--- Name: prestamos; Type: TABLE; Schema: public; Owner: postgres
+-- Name: prestamos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.prestamos (
@@ -373,10 +352,8 @@ CREATE TABLE public.prestamos (
 );
 
 
-ALTER TABLE public.prestamos OWNER TO postgres;
-
 --
--- Name: prestamos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: prestamos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.prestamos ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
@@ -390,7 +367,7 @@ ALTER TABLE public.prestamos ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- Name: prestamos_items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: prestamos_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.prestamos_items_id_seq
@@ -401,10 +378,8 @@ CREATE SEQUENCE public.prestamos_items_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.prestamos_items_id_seq OWNER TO postgres;
-
 --
--- Name: prestamos_items; Type: TABLE; Schema: public; Owner: postgres
+-- Name: prestamos_items; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.prestamos_items (
@@ -418,10 +393,8 @@ CREATE TABLE public.prestamos_items (
 );
 
 
-ALTER TABLE public.prestamos_items OWNER TO postgres;
-
 --
--- Name: prestamos_llaves; Type: TABLE; Schema: public; Owner: postgres
+-- Name: prestamos_llaves; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.prestamos_llaves (
@@ -435,10 +408,8 @@ CREATE TABLE public.prestamos_llaves (
 );
 
 
-ALTER TABLE public.prestamos_llaves OWNER TO postgres;
-
 --
--- Name: prestamos_llaves_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: prestamos_llaves_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.prestamos_llaves ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
@@ -452,7 +423,7 @@ ALTER TABLE public.prestamos_llaves ALTER COLUMN id ADD GENERATED ALWAYS AS IDEN
 
 
 --
--- Name: reservas_estancias_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: reservas_estancias_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.reservas_estancias_id_seq
@@ -463,10 +434,8 @@ CREATE SEQUENCE public.reservas_estancias_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.reservas_estancias_id_seq OWNER TO postgres;
-
 --
--- Name: reservas_estancias; Type: TABLE; Schema: public; Owner: postgres
+-- Name: reservas_estancias; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.reservas_estancias (
@@ -481,10 +450,8 @@ CREATE TABLE public.reservas_estancias (
 );
 
 
-ALTER TABLE public.reservas_estancias OWNER TO postgres;
-
 --
--- Name: reservas_estancias_repeticion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: reservas_estancias_repeticion_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.reservas_estancias_repeticion_id_seq
@@ -495,10 +462,8 @@ CREATE SEQUENCE public.reservas_estancias_repeticion_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.reservas_estancias_repeticion_id_seq OWNER TO postgres;
-
 --
--- Name: reservas_estancias_repeticion; Type: TABLE; Schema: public; Owner: postgres
+-- Name: reservas_estancias_repeticion; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.reservas_estancias_repeticion (
@@ -518,10 +483,8 @@ CREATE TABLE public.reservas_estancias_repeticion (
 );
 
 
-ALTER TABLE public.reservas_estancias_repeticion OWNER TO postgres;
-
 --
--- Name: restricciones_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: restricciones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.restricciones_id_seq
@@ -532,10 +495,8 @@ CREATE SEQUENCE public.restricciones_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.restricciones_id_seq OWNER TO postgres;
-
 --
--- Name: restricciones; Type: TABLE; Schema: public; Owner: postgres
+-- Name: restricciones; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.restricciones (
@@ -549,10 +510,8 @@ CREATE TABLE public.restricciones (
 );
 
 
-ALTER TABLE public.restricciones OWNER TO postgres;
-
 --
--- Name: session; Type: TABLE; Schema: public; Owner: postgres
+-- Name: session; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.session (
@@ -562,31 +521,29 @@ CREATE TABLE public.session (
 );
 
 
-ALTER TABLE public.session OWNER TO postgres;
-
 --
--- Name: asuntos_permitidos id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.asuntos_permitidos ALTER COLUMN id SET DEFAULT nextval('public.asuntos_permitidos_id_seq'::regclass);
 
 
 --
--- Name: estancias id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: estancias id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.estancias ALTER COLUMN id SET DEFAULT nextval('public.estancias_id_seq'::regclass);
 
 
 --
--- Name: perfiles_usuario id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: perfiles_usuario id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.perfiles_usuario ALTER COLUMN id SET DEFAULT nextval('public.perfiles_usuario_id_seq'::regclass);
 
 
 --
--- Name: asuntos_permitidos asuntos_permitidos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos asuntos_permitidos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.asuntos_permitidos
@@ -594,7 +551,7 @@ ALTER TABLE ONLY public.asuntos_permitidos
 
 
 --
--- Name: asuntos_permitidos asuntos_permitidos_uid_fecha_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: asuntos_permitidos asuntos_permitidos_uid_fecha_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.asuntos_permitidos
@@ -602,7 +559,7 @@ ALTER TABLE ONLY public.asuntos_permitidos
 
 
 --
--- Name: permisos asuntos_propios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: permisos asuntos_propios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.permisos
@@ -610,7 +567,7 @@ ALTER TABLE ONLY public.permisos
 
 
 --
--- Name: avisos avisos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: avisos avisos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.avisos
@@ -618,7 +575,7 @@ ALTER TABLE ONLY public.avisos
 
 
 --
--- Name: cursos cursos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cursos cursos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cursos
@@ -626,7 +583,7 @@ ALTER TABLE ONLY public.cursos
 
 
 --
--- Name: estancias estancias_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: estancias estancias_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.estancias
@@ -634,7 +591,7 @@ ALTER TABLE ONLY public.estancias
 
 
 --
--- Name: extraescolares extraescolares_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: extraescolares extraescolares_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.extraescolares
@@ -642,7 +599,7 @@ ALTER TABLE ONLY public.extraescolares
 
 
 --
--- Name: libros libros_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: libros libros_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.libros
@@ -650,7 +607,7 @@ ALTER TABLE ONLY public.libros
 
 
 --
--- Name: perfiles_usuario perfiles_usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: perfiles_usuario perfiles_usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.perfiles_usuario
@@ -658,7 +615,7 @@ ALTER TABLE ONLY public.perfiles_usuario
 
 
 --
--- Name: perfiles_usuario perfiles_usuario_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: perfiles_usuario perfiles_usuario_uid_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.perfiles_usuario
@@ -666,7 +623,7 @@ ALTER TABLE ONLY public.perfiles_usuario
 
 
 --
--- Name: periodos_horarios periodos_horarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: periodos_horarios periodos_horarios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.periodos_horarios
@@ -674,7 +631,7 @@ ALTER TABLE ONLY public.periodos_horarios
 
 
 --
--- Name: prestamos_items prestamos_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: prestamos_items prestamos_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.prestamos_items
@@ -682,7 +639,7 @@ ALTER TABLE ONLY public.prestamos_items
 
 
 --
--- Name: prestamos_llaves prestamos_llaves_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: prestamos_llaves prestamos_llaves_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.prestamos_llaves
@@ -690,7 +647,7 @@ ALTER TABLE ONLY public.prestamos_llaves
 
 
 --
--- Name: prestamos prestamos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: prestamos prestamos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.prestamos
@@ -698,7 +655,7 @@ ALTER TABLE ONLY public.prestamos
 
 
 --
--- Name: reservas_estancias reservas_estancias_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: reservas_estancias reservas_estancias_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.reservas_estancias
@@ -706,7 +663,7 @@ ALTER TABLE ONLY public.reservas_estancias
 
 
 --
--- Name: reservas_estancias_repeticion reservas_estancias_repeticion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: reservas_estancias_repeticion reservas_estancias_repeticion_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.reservas_estancias_repeticion
@@ -714,7 +671,7 @@ ALTER TABLE ONLY public.reservas_estancias_repeticion
 
 
 --
--- Name: restricciones restricciones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: restricciones restricciones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.restricciones
@@ -722,7 +679,7 @@ ALTER TABLE ONLY public.restricciones
 
 
 --
--- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.session
@@ -730,7 +687,7 @@ ALTER TABLE ONLY public.session
 
 
 --
--- Name: empleados usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: empleados usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.empleados
@@ -738,21 +695,28 @@ ALTER TABLE ONLY public.empleados
 
 
 --
--- Name: IDX_session_expire; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IDX_session_expire; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
 
 
 --
--- Name: permisos_uid_fecha_tipo_uk; Type: INDEX; Schema: public; Owner: postgres
+-- Name: permisos_uid_fecha_tipo_uk; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX permisos_uid_fecha_tipo_uk ON public.permisos USING btree (uid, fecha, tipo);
 
 
 --
--- Name: prestamos_llaves prestamos_llaves_idestancia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: extraescolares trigger_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_updated_at BEFORE UPDATE ON public.extraescolares FOR EACH ROW EXECUTE FUNCTION public.actualizar_updated_at();
+
+
+--
+-- Name: prestamos_llaves prestamos_llaves_idestancia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.prestamos_llaves
@@ -760,16 +724,8 @@ ALTER TABLE ONLY public.prestamos_llaves
 
 
 --
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE USAGE ON SCHEMA public FROM PUBLIC;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
-
---
 -- PostgreSQL database dump complete
 --
 
-\unrestrict fsBQ1eDEmFXANSiTGXokQBRhD6D7cAZgNgQbsbdUi4m9xRL0ybJAghhVajlcWVC
+\unrestrict 0IctCjfntqihbroGh5h32fKbXpqZyAw3360J8n8M1eKh818MHs2hpMLbrkZcyOn
 
