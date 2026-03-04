@@ -16,7 +16,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ## 🎥 Demos
 
-[Profesores](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)
+* **[Profesores](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)**
 
 
 ## ⚡ Pasos de instalación
