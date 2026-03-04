@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 0IctCjfntqihbroGh5h32fKbXpqZyAw3360J8n8M1eKh818MHs2hpMLbrkZcyOn
+\restrict b9KhHAYK9dll5qpzvZl3u1v4TKhJzuhObDe3VxqQQ2ZaN6kl8lOWY9zqEhjyRkz
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -99,6 +99,36 @@ CREATE SEQUENCE public.asuntos_propios_id_seq
 
 
 --
+-- Name: ausencias_profesorado_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ausencias_profesorado_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ausencias_profesorado; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ausencias_profesorado (
+    id bigint DEFAULT nextval('public.ausencias_profesorado_id_seq'::regclass) NOT NULL,
+    uid_profesor character varying(50) NOT NULL,
+    fecha_inicio date NOT NULL,
+    fecha_fin date,
+    idperiodo_inicio integer,
+    idperiodo_fin integer,
+    tipo_ausencia character varying(100),
+    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    creada_por character varying(50),
+    CONSTRAINT chk_fechas_validas CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))
+);
+
+
+--
 -- Name: avisos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -160,7 +190,8 @@ CREATE TABLE public.empleados (
     email character varying NOT NULL,
     telefono character varying NOT NULL,
     cuerpo character varying,
-    grupo character varying
+    grupo character varying,
+    personal character varying
 );
 
 
@@ -243,13 +274,76 @@ CREATE TABLE public.extraescolares (
 
 
 --
+-- Name: guardias_asignadas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.guardias_asignadas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: guardias_asignadas; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.guardias_asignadas (
+    id bigint DEFAULT nextval('public.guardias_asignadas_id_seq'::regclass) NOT NULL,
+    fecha date NOT NULL,
+    idperiodo integer NOT NULL,
+    uid_profesor_ausente character varying(50) NOT NULL,
+    uid_profesor_cubridor character varying(50) NOT NULL,
+    forzada boolean DEFAULT false,
+    generada_automaticamente boolean DEFAULT true,
+    uid_asignador character varying(50),
+    estado character varying(20) DEFAULT 'activa'::character varying,
+    confirmada boolean DEFAULT true,
+    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: horario_profesorado_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.horario_profesorado_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: horario_profesorado; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.horario_profesorado (
+    id bigint DEFAULT nextval('public.horario_profesorado_id_seq'::regclass) NOT NULL,
+    uid character varying(50) NOT NULL,
+    dia_semana integer NOT NULL,
+    idperiodo integer NOT NULL,
+    tipo character varying(30) NOT NULL,
+    gidnumber integer,
+    idmateria bigint,
+    idestancia integer,
+    curso_academico character varying(9) NOT NULL,
+    creado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT horario_profesorado_dia_semana_check CHECK (((dia_semana >= 1) AND (dia_semana <= 5)))
+);
+
+
+--
 -- Name: libros; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.libros (
     id bigint NOT NULL,
     idcurso bigint NOT NULL,
-    libro character varying NOT NULL
+    libro character varying NOT NULL,
+    idmateria bigint
 );
 
 
@@ -264,6 +358,29 @@ ALTER TABLE public.libros ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     NO MINVALUE
     NO MAXVALUE
     CACHE 1
+);
+
+
+--
+-- Name: materias_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.materias_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: materias; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.materias (
+    id bigint DEFAULT nextval('public.materias_id_seq'::regclass) NOT NULL,
+    nombre character varying(255) NOT NULL,
+    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -567,6 +684,14 @@ ALTER TABLE ONLY public.permisos
 
 
 --
+-- Name: ausencias_profesorado ausencias_profesorado_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ausencias_profesorado
+    ADD CONSTRAINT ausencias_profesorado_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: avisos avisos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -599,11 +724,35 @@ ALTER TABLE ONLY public.extraescolares
 
 
 --
+-- Name: guardias_asignadas guardias_asignadas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.guardias_asignadas
+    ADD CONSTRAINT guardias_asignadas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: horario_profesorado horario_profesorado_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.horario_profesorado
+    ADD CONSTRAINT horario_profesorado_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: libros libros_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.libros
     ADD CONSTRAINT libros_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: materias materias_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.materias
+    ADD CONSTRAINT materias_pkey PRIMARY KEY (id);
 
 
 --
@@ -702,6 +851,83 @@ CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
 
 
 --
+-- Name: idx_ausencias_profesor; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_ausencias_profesor ON public.ausencias_profesorado USING btree (uid_profesor);
+
+
+--
+-- Name: idx_ausencias_rango; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_ausencias_rango ON public.ausencias_profesorado USING btree (fecha_inicio, fecha_fin);
+
+
+--
+-- Name: idx_guardias_ausente; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_guardias_ausente ON public.guardias_asignadas USING btree (uid_profesor_ausente);
+
+
+--
+-- Name: idx_guardias_cubridor; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_guardias_cubridor ON public.guardias_asignadas USING btree (uid_profesor_cubridor);
+
+
+--
+-- Name: idx_guardias_estado; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_guardias_estado ON public.guardias_asignadas USING btree (estado);
+
+
+--
+-- Name: idx_guardias_fecha; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_guardias_fecha ON public.guardias_asignadas USING btree (fecha);
+
+
+--
+-- Name: idx_guardias_fecha_periodo; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_guardias_fecha_periodo ON public.guardias_asignadas USING btree (fecha, idperiodo);
+
+
+--
+-- Name: idx_horario_curso; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_horario_curso ON public.horario_profesorado USING btree (curso_academico);
+
+
+--
+-- Name: idx_horario_dia_periodo; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_horario_dia_periodo ON public.horario_profesorado USING btree (dia_semana, idperiodo);
+
+
+--
+-- Name: idx_horario_uid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_horario_uid ON public.horario_profesorado USING btree (uid);
+
+
+--
+-- Name: idx_horario_uid_dia_curso; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_horario_uid_dia_curso ON public.horario_profesorado USING btree (uid, dia_semana, curso_academico);
+
+
+--
 -- Name: permisos_uid_fecha_tipo_uk; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -716,6 +942,46 @@ CREATE TRIGGER trigger_updated_at BEFORE UPDATE ON public.extraescolares FOR EAC
 
 
 --
+-- Name: ausencias_profesorado ausencias_profesorado_idperiodo_fin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ausencias_profesorado
+    ADD CONSTRAINT ausencias_profesorado_idperiodo_fin_fkey FOREIGN KEY (idperiodo_fin) REFERENCES public.periodos_horarios(id);
+
+
+--
+-- Name: ausencias_profesorado ausencias_profesorado_idperiodo_inicio_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ausencias_profesorado
+    ADD CONSTRAINT ausencias_profesorado_idperiodo_inicio_fkey FOREIGN KEY (idperiodo_inicio) REFERENCES public.periodos_horarios(id);
+
+
+--
+-- Name: guardias_asignadas guardias_asignadas_idperiodo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.guardias_asignadas
+    ADD CONSTRAINT guardias_asignadas_idperiodo_fkey FOREIGN KEY (idperiodo) REFERENCES public.periodos_horarios(id);
+
+
+--
+-- Name: horario_profesorado horario_profesorado_idmateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.horario_profesorado
+    ADD CONSTRAINT horario_profesorado_idmateria_fkey FOREIGN KEY (idmateria) REFERENCES public.materias(id);
+
+
+--
+-- Name: horario_profesorado horario_profesorado_idperiodo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.horario_profesorado
+    ADD CONSTRAINT horario_profesorado_idperiodo_fkey FOREIGN KEY (idperiodo) REFERENCES public.periodos_horarios(id);
+
+
+--
 -- Name: prestamos_llaves prestamos_llaves_idestancia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -727,5 +993,4 @@ ALTER TABLE ONLY public.prestamos_llaves
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 0IctCjfntqihbroGh5h32fKbXpqZyAw3360J8n8M1eKh818MHs2hpMLbrkZcyOn
-
+\unrestrict b9KhHAYK9dll5qpzvZl3u1v4TKhJzuhObDe3VxqQQ2ZaN6kl8lOWY9zqEhjyRkz
