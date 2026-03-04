@@ -18,6 +18,12 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 
 ### 0. Clonar el repositorio
+
+Instalar git 
+```
+apt-get install -y git
+```
+
 Clona el proyecto y accede al directorio de despliegue:
 
 ```
@@ -26,14 +32,9 @@ cd gestionIES-deploy
 ```
 
 ### 1. Herramientas
-Instalar git, docker, portainer y certificados autofirmados.
+Instalar docker, portainer y certificados autofirmados.
 
-Ejecutar permisos de ejecución a los scripts.
-
-Para instalar git, ejecutar 
-```
-apt-get install -y git
-```
+Dar permisos de ejecución a los scripts.
 
 Para instalar docker, ejecutar script 
 ```
