@@ -988,6 +988,8 @@ ALTER TABLE ONLY public.horario_profesorado
 ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
 
+-- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
+INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador' WHERE NOT EXISTS ( SELECT 1 FROM public.perfiles_usuario WHERE uid = 'admin' );
 
 --
 -- PostgreSQL database dump complete
