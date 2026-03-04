@@ -16,7 +16,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ## 🎥 Demo
 
-[![Demo Profesores](./assets/demo-thumbnail.png)](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)
+[![Demo Profesores]🎥](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)
 
 
 ## ⚡ Pasos Rápidos
