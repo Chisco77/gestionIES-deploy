@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict b9KhHAYK9dll5qpzvZl3u1v4TKhJzuhObDe3VxqQQ2ZaN6kl8lOWY9zqEhjyRkz
+\restrict zkl1cmLss7PiBCWbCa5eIfNqOa93kTuyhoMF5zN9UrCotWHgmdBNRrdKggwv1D6
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -450,8 +450,12 @@ CREATE TABLE public.permisos (
     descripcion text NOT NULL,
     estado integer DEFAULT 0 NOT NULL,
     tipo integer,
-    created_at timestamp with time zone DEFAULT now()
+    created_at timestamp with time zone DEFAULT now(),
+    idperiodo_inicio integer,
+    idperiodo_fin integer,
+    dia_completo boolean DEFAULT true NOT NULL
 );
+
 
 
 --
@@ -988,6 +992,7 @@ ALTER TABLE ONLY public.horario_profesorado
 ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
 
+
 -- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
 INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador' WHERE NOT EXISTS ( SELECT 1 FROM public.perfiles_usuario WHERE uid = 'admin' );
 
@@ -995,4 +1000,4 @@ INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador
 -- PostgreSQL database dump complete
 --
 
-\unrestrict b9KhHAYK9dll5qpzvZl3u1v4TKhJzuhObDe3VxqQQ2ZaN6kl8lOWY9zqEhjyRkz
+\unrestrict zkl1cmLss7PiBCWbCa5eIfNqOa93kTuyhoMF5zN9UrCotWHgmdBNRrdKggwv1D6
