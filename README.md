@@ -18,8 +18,9 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 * **[Instalación](https://www.youtube.com/watch?v=yzqUXrsdyiA)** 
 * **[Admin](https://www.youtube.com/watch?v=maE1aAkVNe4&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17ok)** 
-* **[Profesores](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)** 
 * **[Directiva](https://www.youtube.com/watch?v=iAzDGXIDOjo&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)**
+* **[Profesores](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)** 
+
 
 
 ## ⚡ Pasos de instalación
