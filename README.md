@@ -20,6 +20,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 * **[Admin](https://www.youtube.com/watch?v=maE1aAkVNe4&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17ok)** 
 * **[Directiva](https://www.youtube.com/watch?v=iAzDGXIDOjo&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)**
 * **[Profesores](https://www.youtube.com/watch?v=L-OZSIHGVkI&list=PLiPeMVVIvFdqKno4YzVRN8C_RV5Z17okR)** 
+* **[Educadora Social](https://www.youtube.com/watch?v=M-6HC7vFK_o)** 
 * **[Ordenanza](https://www.youtube.com/watch?v=Vl9fM3fc7OA)** 
 
 
