@@ -1,0 +1,16 @@
+services:
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_gestionIES
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: adminies.xxxxx@educarex.es   # poner vuestra direccion de correo como login
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"   # pgAdmin accesible en http://localhost:8081
+    networks:
+      - gestionies-deploy_default
+
+networks:
+  gestionies-deploy_default:
+    external: true
