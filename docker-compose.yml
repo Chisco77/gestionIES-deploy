@@ -71,9 +71,12 @@ services:
     depends_on:
       - backend_app
     volumes:
+      # MODIFICADO: Usamos rutas relativas al proyecto para los certificados
+      - ./nginx/ssl/nginx.crt:/etc/nginx/ssl/nginx.crt:ro
+      - ./nginx/ssl/nginx.key:/etc/nginx/ssl/nginx.key:ro
       # Certificados SSL proporcionados por el admin
-      - /etc/nginx/ssl/nginx.crt:/etc/nginx/ssl/nginx.crt:ro
-      - /etc/nginx/ssl/nginx.key:/etc/nginx/ssl/nginx.key:ro
+      #- /etc/nginx/ssl/nginx.crt:/etc/nginx/ssl/nginx.crt:ro
+      #- /etc/nginx/ssl/nginx.key:/etc/nginx/ssl/nginx.key:ro
       # Configuración Nginx legacy
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       # PUBLIC PERSONALIZADO POR CENTRO - logos y planos
