@@ -13,7 +13,7 @@ echo -e "${BLUE}🚀 ASISTENTE DE INSTALACIÓN GESTION-IES 🚀${NC}"
 echo -e "${BLUE}=============================================${NC}"
 
 # =============================================
-# 1️⃣ INSTALACIÓN DE DOCKER (Tu script integrado)
+# 1️⃣ INSTALACIÓN DE DOCKER
 # =============================================
 if ! command -v docker &> /dev/null; then
     echo -e "${YELLOW}🔄 Instalando Docker y dependencias...${NC}"
@@ -38,7 +38,7 @@ else
 fi
 
 # =============================================
-# 2️⃣ INSTALACIÓN DE PORTAINER (Tu script integrado)
+# 2️⃣ INSTALACIÓN DE PORTAINER
 # =============================================
 if ! docker ps -a --format '{{.Names}}' | grep -q '^portainer$'; then
     echo -e "${YELLOW}🐳 Instalando Portainer CE...${NC}"
@@ -141,7 +141,7 @@ echo -e "${YELLOW}🏗️ Levantando aplicación con Docker Compose...${NC}"
 docker compose build
 docker compose up -d
 
-# Espera a DB y creación de tablas (Lógica anterior)
+# Espera a DB y creación de tablas
 DB_USER=$(grep "^DB_USER=" .env | cut -d '=' -f2)
 DB_NAME=$(grep "^DB_NAME=" .env | cut -d '=' -f2)
 
