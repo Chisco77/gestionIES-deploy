@@ -77,22 +77,52 @@ echo -e "\n${BLUE}--- Configuración de GestionIES ---${NC}"
 [ ! -f .env ] && cp .env.example .env
 
 update_env() {
-    sed -i "s|^$1=.*|$1=$2|" .env || echo "$1=$2" >> .env
+    # Eliminamos la línea si existe y la añadimos limpia al final
+    sed -i "/^$1=/d" .env
+    echo "$1=$2" >> .env
 }
 
-read -p "🔑 Contraseña DB_PASSWORD: " DB_PASS
+# 1. Contraseña de Base de Datos
+read -p "🔑 Contraseña de la BD de miIES (elige una): " DB_PASS
 update_env "DB_PASSWORD" "$DB_PASS"
 
-read -p "🌐 URL LDAP (ej. ldap://172.16.16.2:389): " LDAP_URL
+# 2. Datos del Centro (VITE)
+echo -e "\n${YELLOW}🏫 Datos del Instituto:${NC}"
+read -p "   🔹 Nombre del Centro (ej. IES Francisco de Quevedo): " IES_NAME
+update_env "VITE_IES_NAME" "$IES_NAME"
+
+read -p "   🔹 Dirección (Calle, Avenida, nº...): " DIR_1
+update_env "VITE_DIRECCION_LINEA_1" "$DIR_1"
+
+read -p "   🔹 Población y Código Postal (ej. Madrid 28001): " DIR_2
+update_env "VITE_DIRECCION_LINEA_2" "$DIR_2"
+
+read -p "   🔹 Teléfono / Fax (ej. Teléfono: xxxx  Fax: xxxx): " DIR_3
+update_env "VITE_DIRECCION_LINEA_3" "$DIR_3"
+
+# 3. LDAP (IP)
+echo -e "\n${YELLOW}🌐 Configuración de Red:${NC}"
+read -p "   🔹 IP del servidor LDAP (ej. 172.16.16.2): " LDAP_IP
+LDAP_URL="ldap://${LDAP_IP}:389"
 update_env "LDAP_URL" "$LDAP_URL"
 
-read -p "🌍 URL Pública (ej. https://172.72.72.72): " PUBLIC_URL
-update_env "ALLOWED_ORIGINS" "$PUBLIC_URL"
-update_env "VITE_SERVER_URL" "$PUBLIC_URL"
+# 4. URL del Servidor (IP)
+read -p "   🔹 IP del equipo en el que instalas miIES (ej. 172.72.72.72): " SERVER_IP
+FULL_SERVER_URL="https://${SERVER_IP}"
 
+# 5. ALLOWED_ORIGINS
+LOCAL_ORIGINS="http://localhost:5173,https://localhost:5173"
+ALLOWED_ORIGINS="${LOCAL_ORIGINS},${FULL_SERVER_URL}"
+
+update_env "ALLOWED_ORIGINS" "$ALLOWED_ORIGINS"
+update_env "VITE_SERVER_URL" "$FULL_SERVER_URL"
+
+# 6. Secreto de Sesión
 if ! grep -q "SESSION_SECRET=" .env; then
     update_env "SESSION_SECRET" "$(openssl rand -hex 16)"
 fi
+
+echo -e "${GREEN}✅ Configuración del .env finalizada.${NC}"
 
 # =============================================
 # 5️⃣ LOGOS Y PLANOS
@@ -126,6 +156,6 @@ fi
 
 echo -e "\n${GREEN}🎉 ¡INSTALACIÓN COMPLETADA!${NC}"
 echo "-------------------------------------------------------"
-echo "🌐 App: $PUBLIC_URL"
+echo "🌐 miIES: $PUBLIC_URL/gestionIES/"
 echo "🐳 Portainer: https://$(hostname -I | awk '{print $1}'):9443"
 echo "-------------------------------------------------------"
