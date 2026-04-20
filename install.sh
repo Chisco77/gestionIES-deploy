@@ -156,6 +156,6 @@ fi
 
 echo -e "\n${GREEN}🎉 ¡INSTALACIÓN COMPLETADA!${NC}"
 echo "-------------------------------------------------------"
-echo "🌐 miIES: $PUBLIC_URL/gestionIES/"
+echo "🌐 miIES: $FULL_SERVER_URL/gestionIES/"
 echo "🐳 Portainer: https://$(hostname -I | awk '{print $1}'):9443"
 echo "-------------------------------------------------------"
