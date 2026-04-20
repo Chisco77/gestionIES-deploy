@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict zkl1cmLss7PiBCWbCa5eIfNqOa93kTuyhoMF5zN9UrCotWHgmdBNRrdKggwv1D6
+\restrict mx1z6KdXdatZlgEdh4eJaXADUNApHMTvBYOhppCVkWbdTTIbkUJIxAVIQHC2lUC
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -39,6 +39,22 @@ END;
 $$;
 
 
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: access_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.access_tokens (
+    nombre character varying NOT NULL,
+    token character varying NOT NULL,
+    rol character varying NOT NULL,
+    id bigint NOT NULL
+);
+
+
 --
 -- Name: api_cursos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
@@ -50,10 +66,6 @@ CREATE SEQUENCE public.api_cursos_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
 
 --
 -- Name: asuntos_permitidos; Type: TABLE; Schema: public; Owner: -
@@ -124,6 +136,9 @@ CREATE TABLE public.ausencias_profesorado (
     tipo_ausencia character varying(100),
     creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     creada_por character varying(50),
+    idpermiso bigint,
+    idextraescolar bigint,
+    descripcion character varying,
     CONSTRAINT chk_fechas_validas CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))
 );
 
@@ -191,7 +206,8 @@ CREATE TABLE public.empleados (
     telefono character varying NOT NULL,
     cuerpo character varying,
     grupo character varying,
-    personal character varying
+    personal character varying,
+    baja boolean DEFAULT false NOT NULL
 );
 
 
@@ -269,7 +285,8 @@ CREATE TABLE public.extraescolares (
     ubicacion text NOT NULL,
     coords jsonb NOT NULL,
     erasmus boolean DEFAULT false NOT NULL,
-    updated_by character varying
+    updated_by character varying,
+    genera_ausencias boolean DEFAULT true NOT NULL
 );
 
 
@@ -326,7 +343,7 @@ CREATE TABLE public.horario_profesorado (
     dia_semana integer NOT NULL,
     idperiodo integer NOT NULL,
     tipo character varying(30) NOT NULL,
-    gidnumber integer,
+    gidnumber integer[],
     idmateria bigint,
     idestancia integer,
     curso_academico character varying(9) NOT NULL,
@@ -453,9 +470,9 @@ CREATE TABLE public.permisos (
     created_at timestamp with time zone DEFAULT now(),
     idperiodo_inicio integer,
     idperiodo_fin integer,
-    dia_completo boolean DEFAULT true NOT NULL
+    dia_completo boolean DEFAULT true NOT NULL,
+    fecha_fin date
 );
-
 
 
 --
@@ -664,6 +681,14 @@ ALTER TABLE ONLY public.perfiles_usuario ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: access_tokens access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_tokens
+    ADD CONSTRAINT access_tokens_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: asuntos_permitidos asuntos_permitidos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -840,6 +865,14 @@ ALTER TABLE ONLY public.session
 
 
 --
+-- Name: ausencias_profesorado unique_extraescolar_profesor; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ausencias_profesorado
+    ADD CONSTRAINT unique_extraescolar_profesor UNIQUE (idextraescolar, uid_profesor);
+
+
+--
 -- Name: empleados usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -852,6 +885,13 @@ ALTER TABLE ONLY public.empleados
 --
 
 CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
+
+
+--
+-- Name: horario_profesorado_guardia_unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX horario_profesorado_guardia_unique ON public.horario_profesorado USING btree (uid, dia_semana, idperiodo, curso_academico) WHERE ((tipo)::text = 'guardia'::text);
 
 
 --
@@ -939,6 +979,13 @@ CREATE UNIQUE INDEX permisos_uid_fecha_tipo_uk ON public.permisos USING btree (u
 
 
 --
+-- Name: uq_ausencias_idpermiso; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_ausencias_idpermiso ON public.ausencias_profesorado USING btree (idpermiso);
+
+
+--
 -- Name: extraescolares trigger_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -993,6 +1040,8 @@ ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
 
 
+
+
 -- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
 INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador' WHERE NOT EXISTS ( SELECT 1 FROM public.perfiles_usuario WHERE uid = 'admin' );
 
@@ -1000,4 +1049,4 @@ INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador
 -- PostgreSQL database dump complete
 --
 
-\unrestrict zkl1cmLss7PiBCWbCa5eIfNqOa93kTuyhoMF5zN9UrCotWHgmdBNRrdKggwv1D6
+\unrestrict mx1z6KdXdatZlgEdh4eJaXADUNApHMTvBYOhppCVkWbdTTIbkUJIxAVIQHC2lUC
