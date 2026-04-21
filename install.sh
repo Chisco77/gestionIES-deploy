@@ -91,14 +91,17 @@ echo -e "\n${YELLOW}🏫 Datos del Instituto:${NC}"
 read -p "   🔹 Nombre del Centro (ej. IES Francisco de Quevedo): " IES_NAME
 update_env "VITE_IES_NAME" "$IES_NAME"
 
-read -p "   🔹 Dirección (Calle, Avenida, nº...): " DIR_1
+read -p "   🔹 Organismo (Ej.: Secretaría General de Educación y F.P.): " DIR_1
 update_env "VITE_DIRECCION_LINEA_1" "$DIR_1"
 
-read -p "   🔹 Población y Código Postal (ej. Madrid 28001): " DIR_2
+read -p "   🔹 Direccion (Ej. Av. Reina María Cristina, s/n. 10200 Trujillo (Cáceres)): " DIR_2
 update_env "VITE_DIRECCION_LINEA_2" "$DIR_2"
 
-read -p "   🔹 Teléfono / Fax (ej. Teléfono: xxxx  Fax: xxxx): " DIR_3
+read -p "   🔹 Teléfono / Fax (Ej. Teléfono: xxxx  Fax: xxxx): " DIR_3
 update_env "VITE_DIRECCION_LINEA_3" "$DIR_3"
+
+read -p "   🔹 Email (Ej. adminies.xxx@educarex.es): " DIR_4
+update_env "VITE_DIRECCION_LINEA_4" "$DIR_4"
 
 # 3. LDAP (IP)
 echo -e "\n${YELLOW}🌐 Configuración de Red:${NC}"
