@@ -1045,6 +1045,31 @@ ALTER TABLE ONLY public.prestamos_llaves
 -- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
 INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador' WHERE NOT EXISTS ( SELECT 1 FROM public.perfiles_usuario WHERE uid = 'admin' );
 
+-- ------------------------------------------------------------
+-- Registro inicial: Periodos Horarios por defecto
+-- ------------------------------------------------------------
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '1ª Hora', '08:30:00', '09:20:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '1ª Hora');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '2ª Hora', '09:20:00', '10:15:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '2ª Hora');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '3ª Hora', '10:15:00', '11:10:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '3ª Hora');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT 'Recreo', '11:10:00', '11:40:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = 'Recreo');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '4ª Hora', '11:40:00', '12:30:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '4ª Hora');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '5ª Hora', '12:30:00', '13:25:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '5ª Hora');
+
+INSERT INTO public.periodos_horarios (nombre, inicio, fin)
+SELECT '6ª Hora', '13:25:00', '14:20:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '6ª Hora');
+
 --
 -- PostgreSQL database dump complete
 --
