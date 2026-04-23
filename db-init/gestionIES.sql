@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict mx1z6KdXdatZlgEdh4eJaXADUNApHMTvBYOhppCVkWbdTTIbkUJIxAVIQHC2lUC
+\restrict ItgIYxPbnucZ1fvPtXH12x93maUAICJDFlL7eLTr3mRhuR7wnjmgpXUPeHPrnZI
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -139,6 +139,7 @@ CREATE TABLE public.ausencias_profesorado (
     idpermiso bigint,
     idextraescolar bigint,
     descripcion character varying,
+    observaciones_guardia text,
     CONSTRAINT chk_fechas_validas CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))
 );
 
@@ -165,6 +166,48 @@ CREATE TABLE public.avisos (
     emails text[] NOT NULL,
     app_password character varying
 );
+
+
+--
+-- Name: configuracion_centro; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.configuracion_centro (
+    id integer NOT NULL,
+    nombre_ies character varying(255) NOT NULL,
+    direccion_linea_1 character varying(255),
+    direccion_linea_2 character varying(255),
+    direccion_linea_3 character varying(255),
+    telefono character varying(20),
+    fax character varying(20),
+    email character varying(150),
+    localidad character varying(100) DEFAULT 'Trujillo'::character varying,
+    provincia character varying(100) DEFAULT 'Cáceres'::character varying,
+    codigo_postal character varying(10),
+    web_url character varying(255),
+    logo_url text,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: configuracion_centro_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.configuracion_centro_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: configuracion_centro_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.configuracion_centro_id_seq OWNED BY public.configuracion_centro.id;
 
 
 --
@@ -317,7 +360,8 @@ CREATE TABLE public.guardias_asignadas (
     uid_asignador character varying(50),
     estado character varying(20) DEFAULT 'activa'::character varying,
     confirmada boolean DEFAULT true,
-    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    idausencia integer NOT NULL
 );
 
 
@@ -471,7 +515,9 @@ CREATE TABLE public.permisos (
     idperiodo_inicio integer,
     idperiodo_fin integer,
     dia_completo boolean DEFAULT true NOT NULL,
-    fecha_fin date
+    fecha_fin date,
+    uid_ultimo_procesado character varying(255),
+    fecha_ultimo_procesado timestamp with time zone
 );
 
 
@@ -667,6 +713,13 @@ ALTER TABLE ONLY public.asuntos_permitidos ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: configuracion_centro id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.configuracion_centro ALTER COLUMN id SET DEFAULT nextval('public.configuracion_centro_id_seq'::regclass);
+
+
+--
 -- Name: estancias id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -726,6 +779,14 @@ ALTER TABLE ONLY public.ausencias_profesorado
 
 ALTER TABLE ONLY public.avisos
     ADD CONSTRAINT avisos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: configuracion_centro configuracion_centro_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.configuracion_centro
+    ADD CONSTRAINT configuracion_centro_pkey PRIMARY KEY (id);
 
 
 --
@@ -1009,6 +1070,14 @@ ALTER TABLE ONLY public.ausencias_profesorado
 
 
 --
+-- Name: guardias_asignadas fk_guardias_ausencia; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.guardias_asignadas
+    ADD CONSTRAINT fk_guardias_ausencia FOREIGN KEY (idausencia) REFERENCES public.ausencias_profesorado(id) ON DELETE CASCADE;
+
+
+--
 -- Name: guardias_asignadas guardias_asignadas_idperiodo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1038,7 +1107,6 @@ ALTER TABLE ONLY public.horario_profesorado
 
 ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
-
 
 
 
@@ -1074,4 +1142,4 @@ SELECT '6ª Hora', '13:25:00', '14:20:00' WHERE NOT EXISTS (SELECT 1 FROM public
 -- PostgreSQL database dump complete
 --
 
-\unrestrict mx1z6KdXdatZlgEdh4eJaXADUNApHMTvBYOhppCVkWbdTTIbkUJIxAVIQHC2lUC
+\unrestrict ItgIYxPbnucZ1fvPtXH12x93maUAICJDFlL7eLTr3mRhuR7wnjmgpXUPeHPrnZI
