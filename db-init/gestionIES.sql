@@ -185,8 +185,9 @@ CREATE TABLE public.configuracion_centro (
     provincia character varying(100) DEFAULT 'Cáceres'::character varying,
     codigo_postal character varying(10),
     web_url character varying(255),
-    logo_url text,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    logo_miies_url text COLLATE pg_catalog."default",
+    logo_centro_url text COLLATE pg_catalog."default"
 );
 
 
@@ -1155,7 +1156,9 @@ INSERT INTO public.configuracion_centro (
     codigo_postal,
     web_url,
     logo_url,
-    updated_at
+    updated_at,
+    logo_miies_url,
+    logo_centro_url
 )
 SELECT
     'IES Francisco de Orellana',
@@ -1170,7 +1173,9 @@ SELECT
     NULL,
     NULL,
     NULL,
-    CURRENT_TIMESTAMP
+    CURRENT_TIMESTAMP,
+    NULL,
+    NULL
 WHERE NOT EXISTS (
     SELECT 1
     FROM public.configuracion_centro
