@@ -86,41 +86,25 @@ update_env() {
 read -p "🔑 Contraseña de la BD de miIES (elige una): " DB_PASS
 update_env "DB_PASSWORD" "$DB_PASS"
 
-# 2. Datos del Centro (VITE)
-echo -e "\n${YELLOW}🏫 Datos del Instituto:${NC}"
-read -p "   🔹 Nombre del Centro (ej. IES Francisco de Quevedo): " IES_NAME
-update_env "VITE_IES_NAME" "$IES_NAME"
 
-read -p "   🔹 Organismo (Ej.: Secretaría General de Educación y F.P.): " DIR_1
-update_env "VITE_DIRECCION_LINEA_1" "$DIR_1"
-
-read -p "   🔹 Direccion (Ej. Av. Reina María Cristina, s/n. 10200 Trujillo (Cáceres)): " DIR_2
-update_env "VITE_DIRECCION_LINEA_2" "$DIR_2"
-
-read -p "   🔹 Teléfono / Fax (Ej. Teléfono: xxxx  Fax: xxxx): " DIR_3
-update_env "VITE_DIRECCION_LINEA_3" "$DIR_3"
-
-read -p "   🔹 Email (Ej. adminies.xxx@educarex.es): " DIR_4
-update_env "VITE_DIRECCION_LINEA_4" "$DIR_4"
-
-# 3. LDAP (IP)
+# 2. LDAP (IP)
 echo -e "\n${YELLOW}🌐 Configuración de Red:${NC}"
 read -p "   🔹 IP del servidor LDAP (ej. 172.16.16.2): " LDAP_IP
 LDAP_URL="ldap://${LDAP_IP}:389"
 update_env "LDAP_URL" "$LDAP_URL"
 
-# 4. URL del Servidor (IP)
+# 3. URL del Servidor (IP)
 read -p "   🔹 IP del equipo en el que instalas miIES (ej. 172.72.72.72): " SERVER_IP
 FULL_SERVER_URL="https://${SERVER_IP}"
 
-# 5. ALLOWED_ORIGINS
+# 4. ALLOWED_ORIGINS
 LOCAL_ORIGINS="http://localhost:5173,https://localhost:5173"
 ALLOWED_ORIGINS="${LOCAL_ORIGINS},${FULL_SERVER_URL}"
 
 update_env "ALLOWED_ORIGINS" "$ALLOWED_ORIGINS"
 update_env "VITE_SERVER_URL" "$FULL_SERVER_URL"
 
-# 6. Secreto de Sesión
+# 5. Secreto de Sesión
 if ! grep -q "SESSION_SECRET=" .env; then
     update_env "SESSION_SECRET" "$(openssl rand -hex 16)"
 fi

@@ -1138,6 +1138,43 @@ SELECT '5ª Hora', '12:30:00', '13:25:00' WHERE NOT EXISTS (SELECT 1 FROM public
 INSERT INTO public.periodos_horarios (nombre, inicio, fin)
 SELECT '6ª Hora', '13:25:00', '14:20:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '6ª Hora');
 
+-- ------------------------------------------------------------
+-- Registro inicial: Configuración del centro
+-- ------------------------------------------------------------
+INSERT INTO public.configuracion_centro (
+    nombre_ies,
+    direccion_linea_1,
+    direccion_linea_2,
+    direccion_linea_3,
+    telefono,
+    fax,
+    email,
+    localidad,
+    provincia,
+    codigo_postal,
+    web_url,
+    logo_url,
+    updated_at
+)
+SELECT
+    'IES Francisco de Orellana',
+    'Secretaría General de Educación y F.P.',
+    'Avda. Reina Mª Cristina, s/n.',
+    'Apdo. De Correos n.º 17',
+    '927027790',
+    '927027789',
+    'ies.franciscodeorellana@edu.juntaex.es',
+    'Trujillo',
+    'Cáceres',
+    NULL,
+    NULL,
+    NULL,
+    CURRENT_TIMESTAMP
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM public.configuracion_centro
+    WHERE nombre_ies = 'IES Francisco de Orellana'
+);
 --
 -- PostgreSQL database dump complete
 --
