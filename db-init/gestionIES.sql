@@ -1138,6 +1138,7 @@ SELECT '5ª Hora', '12:30:00', '13:25:00' WHERE NOT EXISTS (SELECT 1 FROM public
 INSERT INTO public.periodos_horarios (nombre, inicio, fin)
 SELECT '6ª Hora', '13:25:00', '14:20:00' WHERE NOT EXISTS (SELECT 1 FROM public.periodos_horarios WHERE nombre = '6ª Hora');
 
+
 -- ------------------------------------------------------------
 -- Registro inicial: Configuración del centro
 -- ------------------------------------------------------------
