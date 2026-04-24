@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ItgIYxPbnucZ1fvPtXH12x93maUAICJDFlL7eLTr3mRhuR7wnjmgpXUPeHPrnZI
+\restrict kj4IwDM2WHboX6Zg9n1hM6fdWgsKaGpGXlwRdl88agZHZ9fNCuIGhoaiAcbPvXK
 
 -- Dumped from database version 15.15
 -- Dumped by pg_dump version 15.15
@@ -185,9 +185,9 @@ CREATE TABLE public.configuracion_centro (
     provincia character varying(100) DEFAULT 'Cáceres'::character varying,
     codigo_postal character varying(10),
     web_url character varying(255),
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
-    logo_miies_url text COLLATE pg_catalog."default",
-    logo_centro_url text COLLATE pg_catalog."default"
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    logo_miies_url text,
+    logo_centro_url text
 );
 
 
@@ -1110,7 +1110,6 @@ ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
 
 
-
 -- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
 INSERT INTO public.perfiles_usuario (uid, perfil) SELECT 'admin', 'administrador' WHERE NOT EXISTS ( SELECT 1 FROM public.perfiles_usuario WHERE uid = 'admin' );
 
@@ -1170,7 +1169,7 @@ SELECT
     'ies.franciscodeorellana@edu.juntaex.es',
     'Trujillo',
     'Cáceres',
-    NULL,
+    '10200',
     NULL,
     NULL,
     CURRENT_TIMESTAMP,
@@ -1181,8 +1180,10 @@ WHERE NOT EXISTS (
     FROM public.configuracion_centro
     WHERE nombre_ies = 'IES Francisco de Orellana'
 );
+
+
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ItgIYxPbnucZ1fvPtXH12x93maUAICJDFlL7eLTr3mRhuR7wnjmgpXUPeHPrnZI
+\unrestrict kj4IwDM2WHboX6Zg9n1hM6fdWgsKaGpGXlwRdl88agZHZ9fNCuIGhoaiAcbPvXK
