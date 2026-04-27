@@ -1154,7 +1154,6 @@ INSERT INTO public.configuracion_centro (
     provincia,
     codigo_postal,
     web_url,
-    logo_url,
     updated_at,
     logo_miies_url,
     logo_centro_url
@@ -1170,7 +1169,6 @@ SELECT
     'Trujillo',
     'Cáceres',
     '10200',
-    NULL,
     NULL,
     CURRENT_TIMESTAMP,
     NULL,
