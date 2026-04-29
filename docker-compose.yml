@@ -45,6 +45,7 @@ services:
     volumes:
       # Volumen persistente para uploads del backend
       - ./backend/uploads:/app/uploads
+      - ./public/planos:/public/planos
 
   # =========================
   # 3. Frontend / Nginx
