@@ -4,9 +4,6 @@
 
 \restrict kj4IwDM2WHboX6Zg9n1hM6fdWgsKaGpGXlwRdl88agZHZ9fNCuIGhoaiAcbPvXK
 
--- Dumped from database version 15.15
--- Dumped by pg_dump version 15.15
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -187,7 +184,8 @@ CREATE TABLE public.configuracion_centro (
     web_url character varying(255),
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     logo_miies_url text,
-    logo_centro_url text
+    logo_centro_url text,
+    favicon_url text
 );
 
 
@@ -261,7 +259,7 @@ CREATE TABLE public.empleados (
 
 CREATE TABLE public.estancias (
     id integer NOT NULL,
-    planta text NOT NULL,
+    idplano integer NOT NULL    
     codigo text NOT NULL,
     descripcion text NOT NULL,
     totalllaves integer DEFAULT 1 NOT NULL,
@@ -519,6 +517,30 @@ CREATE TABLE public.permisos (
     fecha_fin date,
     uid_ultimo_procesado character varying(255),
     fecha_ultimo_procesado timestamp with time zone
+);
+
+
+--
+-- Name: planos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.planos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: planos; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.planos (
+    id integer DEFAULT nextval('public.planos_id_seq'::regclass) NOT NULL,
+    label text NOT NULL,
+    svg_url text NOT NULL,
+    orden integer DEFAULT 0
 );
 
 
@@ -868,6 +890,14 @@ ALTER TABLE ONLY public.perfiles_usuario
 
 ALTER TABLE ONLY public.periodos_horarios
     ADD CONSTRAINT periodos_horarios_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: planos planos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.planos
+    ADD CONSTRAINT planos_pkey PRIMARY KEY (id);
 
 
 --
