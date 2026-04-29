@@ -112,16 +112,6 @@ fi
 echo -e "${GREEN}✅ Configuración del .env finalizada.${NC}"
 
 # =============================================
-# 5️⃣ LOGOS Y PLANOS
-# =============================================
-echo -e "\n${YELLOW}📂 ¿Deseas copiar logos y planos desde una carpeta? (s/n)${NC}"
-read -r COPY_FILES
-if [[ "$COPY_FILES" =~ ^[Ss]$ ]]; then
-    read -p "Indica la ruta de la carpeta: " FOLDER_PATH
-    [ -d "$FOLDER_PATH" ] && cp "$FOLDER_PATH"/* ./public/ && echo "✅ Archivos copiados."
-fi
-
-# =============================================
 # 6️⃣ DESPLIEGUE FINAL
 # =============================================
 echo -e "${YELLOW}🏗️ Levantando aplicación con Docker Compose...${NC}"
