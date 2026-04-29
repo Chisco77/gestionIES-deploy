@@ -259,7 +259,7 @@ CREATE TABLE public.empleados (
 
 CREATE TABLE public.estancias (
     id integer NOT NULL,
-    idplano integer NOT NULL    
+    idplano integer NOT NULL,
     codigo text NOT NULL,
     descripcion text NOT NULL,
     totalllaves integer DEFAULT 1 NOT NULL,
