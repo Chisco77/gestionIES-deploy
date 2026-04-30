@@ -1213,7 +1213,7 @@ WHERE NOT EXISTS (
 -- Tabla de Materias
 -- ----------------------
 
-INSERT INTO materias (nombre) VALUES
+INSERT INTO public.materias (nombre) VALUES
 ('MATEMÁTICAS'),
 ('BIOLOGÍA Y GEOLOGÍA'),
 ('FRANCÉS'),
