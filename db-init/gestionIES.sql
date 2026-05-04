@@ -185,7 +185,9 @@ CREATE TABLE public.configuracion_centro (
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     logo_miies_url text,
     logo_centro_url text,
-    favicon_url text
+    favicon_url text,
+    uid_directora character varying,
+    uid_secretaria character varying
 );
 
 
