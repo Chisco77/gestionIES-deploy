@@ -48,7 +48,9 @@ CREATE TABLE public.access_tokens (
     nombre character varying NOT NULL,
     token character varying NOT NULL,
     rol character varying NOT NULL,
-    id bigint NOT NULL
+    id bigint NOT NULL,
+    ldap_user character varying(255),
+    ldap_pass character varying(255)
 );
 
 
@@ -261,7 +263,6 @@ CREATE TABLE public.empleados (
 
 CREATE TABLE public.estancias (
     id integer NOT NULL,
-    idplano integer NOT NULL,
     codigo text NOT NULL,
     descripcion text NOT NULL,
     totalllaves integer DEFAULT 1 NOT NULL,
@@ -270,7 +271,8 @@ CREATE TABLE public.estancias (
     codigollave character varying NOT NULL,
     reservable boolean DEFAULT false NOT NULL,
     tipoestancia character varying,
-    numero_ordenadores integer DEFAULT 0 NOT NULL
+    numero_ordenadores integer DEFAULT 0 NOT NULL,
+    idplano integer NOT NULL
 );
 
 
@@ -1140,6 +1142,12 @@ ALTER TABLE ONLY public.horario_profesorado
 
 ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
 
 
 -- Registro inicial: perfil administrador -- ------------------------------------------------------------ 
