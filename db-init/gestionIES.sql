@@ -329,10 +329,12 @@ CREATE TABLE public.extraescolares (
     updated_at timestamp without time zone DEFAULT now(),
     responsables_uids character varying[] NOT NULL,
     ubicacion text NOT NULL,
-    coords jsonb NOT NULL,
+    coords jsonb,
     erasmus boolean DEFAULT false NOT NULL,
     updated_by character varying,
-    genera_ausencias boolean DEFAULT true NOT NULL
+    genera_ausencias boolean DEFAULT true NOT NULL,
+    idestancia integer,
+    fuera_del_centro boolean DEFAULT false NOT NULL
 );
 
 

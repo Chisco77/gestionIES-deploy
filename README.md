@@ -42,19 +42,7 @@ git clone https://github.com/Chisco77/gestionIES-deploy.git
 cd gestionIES-deploy
 ```
 
-### 1. Poner logos y planos de tu IES en /public (opcional)
-Lleva el logo de tu centro a logo.png y favicon.ico. Los planos, a PLANTA_BAJA.svg, PLANTA_PRIMERA.svg, PLANTA_SEGUNDA.svg.
-IMPORTANTE: Respeta los nombres de los archivos.
-
-### 2 . Fotos de perfil de alumnos (opcional)
-Para que al editar un alumno, aparezca su foto de Rayuela:
-
-> Descargad xml de alumnos y ponedlo en /backend, con nombre Alumnos.xml
-> Los archivos de las fotos, llevadlos a /backend/uploads/alumnos
-> Ejecutad node renameFotos.js (está en /backend). El resultado es que habrá renombrado las fotos de nie.extension a usuario.extension.
-
-
-### 3. Despliegue
+### 1. Despliegue
 Accede a la carpeta del proyecto, gestionIES-deploy, da permisos de ejecución al script install.sh y ejecuta.
 Instalará docker y portainer si no los tenías previamente instalados.
 
@@ -63,6 +51,12 @@ chmod +x install.sh
 ./install.sh
 ```
 
+### 2 . Fotos de perfil de alumnos (opcional)
+Para que al editar un alumno, aparezca su foto de Rayuela:
+
+> Descargad xml de alumnos y ponedlo en /backend, con nombre Alumnos.xml
+> Los archivos de las fotos, llevadlos a /backend/uploads/alumnos
+> Ejecutad node renameFotos.js (está en /backend). El resultado es que habrá renombrado las fotos de nie.extension a usuario.extension.
 
 ---
 
