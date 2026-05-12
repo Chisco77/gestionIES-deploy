@@ -190,7 +190,9 @@ CREATE TABLE public.configuracion_centro (
     logo_centro_url text,
     favicon_url text,
     uid_directora character varying,
-    uid_secretaria character varying
+    uid_secretaria character varying,
+    uid_jefa_estudios character varying,
+    uids_adjuntos character varying[]
 );
 
 
@@ -1186,6 +1188,7 @@ ALTER TABLE ONLY public.horario_profesorado
 
 ALTER TABLE ONLY public.prestamos_llaves
     ADD CONSTRAINT prestamos_llaves_idestancia_fkey FOREIGN KEY (idestancia) REFERENCES public.estancias(id) ON DELETE CASCADE;
+
 
 
 --
