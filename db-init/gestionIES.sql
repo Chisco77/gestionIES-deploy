@@ -164,7 +164,8 @@ CREATE TABLE public.avisos (
     id integer DEFAULT nextval('public.avisos_id_seq'::regclass) NOT NULL,
     modulo text NOT NULL,
     emails text[] NOT NULL,
-    app_password character varying
+    app_password character varying,
+    avisar_profesores boolean DEFAULT false NOT NULL
 );
 
 
