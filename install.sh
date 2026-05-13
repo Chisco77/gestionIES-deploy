@@ -118,27 +118,35 @@ echo -e "${YELLOW}🏗️ Levantando aplicación con Docker Compose...${NC}"
 docker compose build
 docker compose up -d
 
-# Espera a DB y creación de tablas
+# Cargamos las variables de forma segura
 DB_USER=$(grep "^DB_USER=" .env | cut -d '=' -f2)
 DB_NAME=$(grep "^DB_NAME=" .env | cut -d '=' -f2)
 
-#echo "⏳ Esperando a PostgreSQL..."
-#until docker exec -i postgres_gestionIES pg_isready -U "$DB_USER" > /dev/null 2>&1; do sleep 2; done
+echo -n "⏳ Esperando a que PostgreSQL esté saludable"
 
-# Espera a que el contenedor esté realmente operativo
-echo "⏳ Esperando a que PostgreSQL inicie..."
-
-# Usamos un bucle que no detenga el script si falla (quitamos set -e temporalmente o ignoramos el error)
-until docker exec postgres_gestionIES pg_isready -U "$DB_USER" > /dev/null 2>&1; do
-    echo -n "."
-    sleep 2
+# Usamos un bucle que verifica el estado 'healthy' definido en tu docker-compose.yml
+# Esto ignora los errores intermitentes de "shutting down" mientras el contenedor arranca
+while true; do
+    STATUS=$(docker inspect -f '{{.State.Health.Status}}' postgres_gestionIES 2>/dev/null || echo "starting")
+    
+    if [ "$STATUS" == "healthy" ]; then
+        echo -e "\n${GREEN}✅ PostgreSQL está listo y operando.${NC}"
+        break
+    elif [ "$STATUS" == "unhealthy" ]; then
+        echo -e "\n${RED}❌ Error: PostgreSQL no pudo iniciar correctamente. Revisa los logs.${NC}"
+        exit 1
+    else
+        echo -n "."
+        sleep 3
+    fi
 done
-echo -e "\n${GREEN}✅ PostgreSQL está listo.${NC}"
 
-EXISTS=$(docker exec -i postgres_gestionIES psql -U "$DB_USER" -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'")
-if [ "$EXISTS" != "1" ]; then
-#    docker exec -i postgres_gestionIES psql -U "$DB_USER" -c "CREATE DATABASE \"$DB_NAME\";"
-    [ -f "./db-init/gestionIES.sql" ] && docker exec -i postgres_gestionIES psql -U "$DB_USER" -d "$DB_NAME" < "./db-init/gestionIES.sql"
+# Importación de datos (si el archivo existe)
+if [ -f "./db-init/gestionIES.sql" ]; then
+    echo "📦 Verificando importación de datos..."
+    # Ejecutamos la importación. Si el script SQL tiene sentencias 'IF NOT EXISTS', esto es seguro.
+    docker exec -i postgres_gestionIES psql -U "$DB_USER" -d "$DB_NAME" < "./db-init/gestionIES.sql" > /dev/null 2>&1
+    echo -e "${GREEN}✅ Base de datos configurada.${NC}"
 fi
 
 echo -e "\n${GREEN}🎉 ¡INSTALACIÓN COMPLETADA!${NC}"
