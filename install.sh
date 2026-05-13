@@ -124,7 +124,7 @@ DB_NAME=$(grep "^DB_NAME=" .env | cut -d '=' -f2)
 
 echo -n "⏳ Esperando a que PostgreSQL esté saludable"
 
-# Usamos un bucle que verifica el estado 'healthy' definido en tu docker-compose.yml
+# Usamos un bucle que verifica el estado 'healthy' definido el docker-compose.yml
 # Esto ignora los errores intermitentes de "shutting down" mientras el contenedor arranca
 while true; do
     STATUS=$(docker inspect -f '{{.State.Health.Status}}' postgres_gestionIES 2>/dev/null || echo "starting")
