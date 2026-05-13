@@ -122,12 +122,22 @@ docker compose up -d
 DB_USER=$(grep "^DB_USER=" .env | cut -d '=' -f2)
 DB_NAME=$(grep "^DB_NAME=" .env | cut -d '=' -f2)
 
-echo "⏳ Esperando a PostgreSQL..."
-until docker exec -i postgres_gestionIES pg_isready -U "$DB_USER" > /dev/null 2>&1; do sleep 2; done
+#echo "⏳ Esperando a PostgreSQL..."
+#until docker exec -i postgres_gestionIES pg_isready -U "$DB_USER" > /dev/null 2>&1; do sleep 2; done
+
+# Espera a que el contenedor esté realmente operativo
+echo "⏳ Esperando a que PostgreSQL inicie..."
+
+# Usamos un bucle que no detenga el script si falla (quitamos set -e temporalmente o ignoramos el error)
+until docker exec postgres_gestionIES pg_isready -U "$DB_USER" > /dev/null 2>&1; do
+    echo -n "."
+    sleep 2
+done
+echo -e "\n${GREEN}✅ PostgreSQL está listo.${NC}"
 
 EXISTS=$(docker exec -i postgres_gestionIES psql -U "$DB_USER" -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'")
 if [ "$EXISTS" != "1" ]; then
-    docker exec -i postgres_gestionIES psql -U "$DB_USER" -c "CREATE DATABASE \"$DB_NAME\";"
+#    docker exec -i postgres_gestionIES psql -U "$DB_USER" -c "CREATE DATABASE \"$DB_NAME\";"
     [ -f "./db-init/gestionIES.sql" ] && docker exec -i postgres_gestionIES psql -U "$DB_USER" -d "$DB_NAME" < "./db-init/gestionIES.sql"
 fi
 
