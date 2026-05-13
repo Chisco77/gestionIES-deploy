@@ -63,11 +63,12 @@ Para que al editar un alumno, aparezca su foto de Rayuela:
 ## ⚙️ Qué hace el script automáticamente
 Al ejecutar install.sh, el sistema realiza las siguientes acciones:
 1. **Instala** docker y portainer si no estaban previamente instalados.
-2. **Construye** las imágenes Docker.
-3. **Levanta** los contenedores (db, backend_app, frontend_nginx).
-4. **Genera** el SESSION_SECRET si no existe.
-5. **Crea la base de datos** si no existe.
-6. **Importa la estructura** inicial desde db-init/gestionIES.sql si la base está vacía.
+2. **Certificados** crea certificados autofirmados para https.
+3. **Construye** las imágenes Docker.
+4. **Levanta** los contenedores (db, backend_app, frontend_nginx).
+5. **Genera** el SESSION_SECRET si no existe.
+6. **Crea la base de datos** si no existe.
+7. **Importa la estructura** inicial desde db-init/gestionIES.sql si la base está vacía.
 
 ---
 
