@@ -13,7 +13,7 @@ echo -e "${BLUE}🚀 ASISTENTE DE INSTALACIÓN GESTION-IES 🚀${NC}"
 echo -e "${BLUE}=============================================${NC}"
 
 # =============================================
-# 1️⃣ INSTALACIÓN DE DOCKER
+# INSTALACIÓN DE DOCKER (si no existe)
 # =============================================
 if ! command -v docker &> /dev/null; then
     echo -e "${YELLOW}🔄 Instalando Docker y dependencias...${NC}"
@@ -38,7 +38,7 @@ else
 fi
 
 # =============================================
-# 2️⃣ INSTALACIÓN DE PORTAINER
+# INSTALACIÓN DE PORTAINER (si no existe)
 # =============================================
 if ! docker ps -a --format '{{.Names}}' | grep -q '^portainer$'; then
     echo -e "${YELLOW}🐳 Instalando Portainer CE...${NC}"
@@ -50,7 +50,7 @@ else
 fi
 
 # =============================================
-# 3️⃣ CERTIFICADOS SSL (Interactivo)
+# CERTIFICADOS SSL autofirmados (Interactivo)
 # =============================================
 SSL_DIR="./nginx/ssl" # Ruta relativa para el montaje de Docker
 
@@ -60,7 +60,7 @@ if [ ! -f "$SSL_DIR/nginx.crt" ]; then
     
     mkdir -p "$SSL_DIR"
     
-    # Hemos quitado el flag -subj para que sea interactivo
+    # interactivo
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
       -keyout "$SSL_DIR/nginx.key" \
       -out "$SSL_DIR/nginx.crt"
@@ -71,7 +71,7 @@ else
 fi
 
 # =============================================
-# 4️⃣ CONFIGURACIÓN DE LA APLICACIÓN (.env)
+# CONFIGURACIÓN DE LA APLICACIÓN (.env)
 # =============================================
 echo -e "\n${BLUE}--- Configuración de GestionIES ---${NC}"
 [ ! -f .env ] && cp .env.example .env
@@ -112,7 +112,7 @@ fi
 echo -e "${GREEN}✅ Configuración del .env finalizada.${NC}"
 
 # =============================================
-# 6️⃣ DESPLIEGUE FINAL
+# DESPLIEGUE FINAL
 # =============================================
 echo -e "${YELLOW}🏗️ Levantando aplicación con Docker Compose...${NC}"
 docker compose build
@@ -124,7 +124,7 @@ DB_NAME=$(grep "^DB_NAME=" .env | cut -d '=' -f2)
 
 echo -n "⏳ Esperando a que PostgreSQL esté saludable"
 
-# Usamos un bucle que verifica el estado 'healthy' definido el docker-compose.yml
+# Bucle que verifica el estado 'healthy' definido el docker-compose.yml
 # Esto ignora los errores intermitentes de "shutting down" mientras el contenedor arranca
 while true; do
     STATUS=$(docker inspect -f '{{.State.Health.Status}}' postgres_gestionIES 2>/dev/null || echo "starting")
