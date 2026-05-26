@@ -257,7 +257,8 @@ CREATE TABLE public.empleados (
     cuerpo character varying,
     grupo character varying,
     personal character varying,
-    baja boolean DEFAULT false NOT NULL
+    baja boolean DEFAULT false NOT NULL, 
+    acronimo_untis character varying COLLATE pg_catalog."default"
 );
 
 
@@ -451,7 +452,9 @@ CREATE SEQUENCE public.materias_id_seq
 CREATE TABLE public.materias (
     id bigint DEFAULT nextval('public.materias_id_seq'::regclass) NOT NULL,
     nombre character varying(255) NOT NULL,
-    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    creada_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    acronimo_untis character varying COLLATE pg_catalog."default"
+
 );
 
 
